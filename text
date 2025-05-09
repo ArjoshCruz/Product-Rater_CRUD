@@ -1,0 +1,63 @@
+// Register AJAX
+$(document).ready(function () {
+  $('#registerForm').on('submit', function (e) {
+    e.preventDefault();
+
+    const formData = {
+      action: 'register',
+      username: $('#username').val(),
+      email: $('#email').val(),
+      password: $('#password').val(),
+      confirm_password: $('#confirm_password').val()
+    };
+
+    $.ajax({
+      url: '../core/handleForms.php',
+      type: 'POST',
+      data: formData,
+      dataType: 'json',
+      success: function (response) {
+        if (response.result) {
+          alert(response.message);
+          window.location.href = "login.php";
+        } else {
+          alert(response.message);
+        }
+      },
+      error: function () {
+        alert('Something went wrong with the server.');
+      }
+    });
+  });
+});
+
+// Login AJAX
+$(document).ready(function () {
+  $('#loginForm').on('submit', function (e) {
+    e.preventDefault(); // Prevents the default form submission
+
+    const formData = {
+      action: 'login', // Sending action type for backend to identify
+      email: $('#username').val(),
+      password: $('#password').val(),
+    };
+
+    $.ajax({
+      url: '../core/handleForms.php',
+      type: 'POST',
+      data: formData,
+      dataType: 'json',
+      success: function (response) {
+        if (response.result) {
+          alert(response.message);
+          window.location.href = "../index.php"; // Redirect on success
+        } else {
+          alert(response.message); // Show error message from response
+        }
+      },
+      error: function () {
+        alert('Something went wrong with the server.');
+      }
+    });
+  });
+});
